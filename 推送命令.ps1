@@ -1,1 +1,4 @@
 Push-Location "C:\Users\Lenovo\Documents\Obsidian Vault\财经网站提示词"; Write-Output '---清除 repo 层面的无效 proxy 配置（如果存在）---'; git config --local --unset-all http.proxy 2>$null; git config --local --unset-all https.proxy 2>$null; Write-Output '---尝试使用 socks5h://127.0.0.1:7890 临时代理推送---'; git -c http.proxy=socks5h://127.0.0.1:7890 -c https.proxy=socks5h://127.0.0.1:7890 push origin main; Pop-Location
+
+
+git add -A; git commit -m "同步本地修改 $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')"; git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD)

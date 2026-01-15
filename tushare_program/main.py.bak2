@@ -1,0 +1,10 @@
+import tushare as ts
+
+ts.set_token("82a45f0dc0cc4afda262bafa75ad6aae783b5666510752187065090432d1")
+pro = ts.pro_api()
+pro._DataApi__token = "82a45f0dc0cc4afda262bafa75ad6aae783b5666510752187065090432d1"  # 保证有这个代码，不然不可以获取
+pro._DataApi__http_url = 'https://zricjhieabqkgscqpnpp.supabase.co'  # 保证有这个代码，不然不可以获取
+df = pro.trade_cal(exchange='', start_date='20250113', end_date='20250114')
+print(df.head())
+
+

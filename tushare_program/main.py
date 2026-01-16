@@ -1,6 +1,8 @@
 import tushare as ts
 import pandas as pd
 from supabase import create_client
+import os
+from datetime import date
 
 # ===== 1. 配置 =====
 # ⚠️ 注意：不要泄露你的 Token，建议后续放入环境变量
@@ -14,14 +16,15 @@ ts.set_token(TUSHARE_TOKEN)
 pro = ts.pro_api()
 
 pro._DataApi__token = TUSHARE_TOKEN  # (ts.set_token 已经做过了，这行多余但无害)
-pro._DataApi__http_url = "https://jiaoch.site"  # (这行是导致获取不到数据的罪魁祸首！)
+# 不要手动覆盖 pro._DataApi__http_url；使用默认官方地址即可
 
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 # ===== 3. 拉取行情 =====
 # 20260106 是周二，应该是交易日。
 # ⚠️ 注意：如果你是 Tushare 免费用户，可能拉取不到最近的数据（有延迟），建议先试一个去年的旧日期确认代码通畅
-trade_date = "20251217" 
+# 默认取当天日期；也可以通过环境变量 TRADE_DATE=YYYYMMDD 手动指定
+trade_date = os.getenv("TRADE_DATE") or date.today().strftime("%Y%m%d")
 
 try:
     print(f"正在从 Tushare 拉取 {trade_date} 的数据...")
